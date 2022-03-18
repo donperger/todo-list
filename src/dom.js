@@ -1,5 +1,3 @@
-
-
 const DOMManipulation = (() => {
     function displayTask (task) {
         console.log(task.title, task.description);
