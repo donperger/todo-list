@@ -1,10 +1,5 @@
-class Task {
-    constructor (title, description, dueDate, priotiry) {
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priotiry = priotiry;
-    }
+const task = (title, description, dueDate, priotiry) => {
+    return { title, description, dueDate, priotiry }
 }
 
-export { Task };
+export { task };
