@@ -1,5 +1,7 @@
 import { DOMManipulation } from "./dom.js";
 import { taskOperations } from "./task.js";
+import GitHubIcon from './img/icons8-github.svg';
+import "../src/styles/mian.css";
 
 const general = [];
 
