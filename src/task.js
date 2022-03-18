@@ -1,5 +1,16 @@
-const task = (title, description, dueDate, priotiry) => {
-    return { title, description, dueDate, priotiry }
-}
+const taskOperations = (() => {
+    const createTask = (title, description, dueDate, priotiry) => {
+        return { title, description, dueDate, priotiry }
+    };
 
-export { task };
+    function addTaskToArray (task, array) {
+        array.push(task);
+    }
+
+    return {createTask,
+    addTaskToArray};
+})();
+
+
+
+export { taskOperations };
