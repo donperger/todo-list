@@ -1,9 +1,10 @@
 import { DOMManipulation } from "./dom.js";
-import { Task } from "./task.js";
+import { task } from "./task.js";
 
+const general = [];
 
-let task = new Task("Wash dishes", "Clean all the dirty dishes in the sink", "2022.04.18", "not important");
+let task1 = task("Wash dishes", "Clean all the dirty dishes in the sink", "2022.04.18", "not important");
 
-DOMManipulation.displayTask(task);
+DOMManipulation.displayTask(task1);
 
-DOMManipulation.displayDate(task);
+DOMManipulation.displayDate(task1);
