@@ -3,12 +3,7 @@ const taskOperations = (() => {
         return { title, description, dueDate, priotiry }
     };
 
-    function addTaskToArray (task, array) {
-        array.push(task);
-    }
-
-    return {createTask,
-    addTaskToArray};
+    return {createTask};
 })();
 
 
