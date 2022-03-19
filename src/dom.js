@@ -1,5 +1,5 @@
 import deleteIcon from "./img/delete-svgrepo-com.svg";
-import edtirIcon from "./img/edit-svgrepo-com.svg"
+import editIcon from "./img/edit-svgrepo-com.svg"
 
 const DOMManipulation = (() => {
     const _addBtn = document.querySelector(".add-task-btn");
@@ -7,31 +7,49 @@ const DOMManipulation = (() => {
     const _sidebar = document.querySelector(".sidebar");
     const _contentContainer = document.querySelector(".content-container");
 
-    function displayTasks (projectName, tasks) {
+    function _displayTasks (projectName, tasks) {
         tasks.forEach((task, index) => {
-        const taskCard = document.createElement("div");
-        taskCard.classList.add("task-card");
-        taskCard.setAttribute("id", `${projectName}-${index}`)
+            const taskCard = document.createElement("div");
+            taskCard.classList.add("task-card");
+            taskCard.setAttribute("id", `${projectName}-${index}`);
 
-        const taskTitle = document.createElement("h2");
-        taskTitle.textContent = task.title;
+            const taskHeaderDiv = document.createElement("div");
+            taskHeaderDiv.classList.add("task-header");
 
-        taskCard.appendChild(taskTitle);
+            const taskTitle = document.createElement("h2");
+            taskTitle.textContent = task.title;
+            taskHeaderDiv.appendChild(taskTitle);
 
-        const taksDueDate = document.createElement("div");
-        taksDueDate.textContent = task.dueDate;
+            const editBtn = document.createElement("button");
+            const editImg = new Image();
+            editImg.src = editIcon;
+            editImg.classList.add("edit-img");
+            editBtn.appendChild(editImg);
+            taskHeaderDiv.appendChild(editBtn);
 
-        taskCard.appendChild(taksDueDate);
+            const deleteBtn = document.createElement("button");
+            const deleteImg = new Image();
+            deleteImg.src = deleteIcon;
+            deleteImg.classList.add("delete-img")
+            deleteBtn.appendChild(deleteImg);
+            taskHeaderDiv.appendChild(deleteBtn)
 
-        taskCard.addEventListener("click", () => {
-            if(taskCard.lastElementChild.textContent !== task.description) {
-                _showDetails(task, taskCard);
-            } else {
-                _hideDetails(taskCard);
-            }
-        });
+            taskCard.appendChild(taskHeaderDiv);
 
-        _contentContainer.appendChild(taskCard);
+            const taksDueDate = document.createElement("div");
+            taksDueDate.textContent = task.dueDate;
+
+            taskCard.appendChild(taksDueDate);
+
+            taskCard.addEventListener("click", () => {
+                if(taskCard.lastElementChild.textContent !== task.description) {
+                    _showDetails(task, taskCard);
+                } else {
+                    _hideDetails(taskCard);
+                }
+            });
+
+            _contentContainer.appendChild(taskCard);
         })
     }
 
@@ -68,7 +86,7 @@ const DOMManipulation = (() => {
             const projectName = proj.name;
             projDiv.textContent = _capitalizeFirstLetter(projectName);
             projDiv.addEventListener("click", () =>{
-                displayTasks(proj.name, proj.tasks)
+                _displayTasks(proj.name, proj.tasks)
             })
 
             _projContainer.appendChild(projDiv);
@@ -79,7 +97,7 @@ const DOMManipulation = (() => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    return {displayTasks, hideSidebar, showSidebar, displayProjects}
+    return {hideSidebar, showSidebar, displayProjects}
 })();
 
 export {DOMManipulation};
