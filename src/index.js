@@ -1,5 +1,6 @@
 import { DOMManipulation } from "./dom.js";
 import { taskOperations } from "./task.js";
+import {Project, projectList,createProject} from "./project.js";
 import GitHubIcon from './img/icons8-github.svg';
 import "./img/menu-svgrepo-com.svg"
 import "../src/styles/mian.css";
@@ -19,13 +20,15 @@ menuButton.addEventListener("click", () => {
     isSidebarExpanded = !isSidebarExpanded;
 });
 
-DOMManipulation.displayProjects();
 
-const general = [];
 
-let task1 = taskOperations.createTask("Wash dishes", "Clean all the dirty dishes in the sink", "2022.04.18", "not important");
+const task1 = taskOperations.createTask("Wash dishes", "Clean all the dirty dishes in the sink", "2022.04.18", "not important");
 const task2 = taskOperations.createTask("Feed the dog", "The dog is really hungry,she need to eat two times a day", "2022.04.18", "important");
 
-taskOperations.addTaskToArray(task1, general);
-taskOperations.addTaskToArray(task2, general);
+const newProj = createProject("general");
+console.log(newProj.tasks)
+newProj.addTasks(task1);
+newProj.addTasks(task2);
+
+DOMManipulation.displayProjects(projectList);
 
