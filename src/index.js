@@ -4,6 +4,7 @@ import {Project, projectList,createProject} from "./project.js";
 import GitHubIcon from './img/icons8-github.svg';
 import "./img/menu-svgrepo-com.svg"
 import "../src/styles/mian.css";
+import "../src/styles/list.css";
 
 let isSidebarExpanded = true;
 
