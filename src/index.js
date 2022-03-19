@@ -26,7 +26,6 @@ const task1 = taskOperations.createTask("Wash dishes", "Clean all the dirty dish
 const task2 = taskOperations.createTask("Feed the dog", "The dog is really hungry,she need to eat two times a day", "2022.04.18", "important");
 
 const newProj = createProject("general");
-console.log(newProj.tasks)
 newProj.addTasks(task1);
 newProj.addTasks(task2);
 
