@@ -1,3 +1,6 @@
+import deleteIcon from "./img/delete-svgrepo-com.svg";
+import edtirIcon from "./img/edit-svgrepo-com.svg"
+
 const DOMManipulation = (() => {
     const _addBtn = document.querySelector(".add-task-btn");
     const _projContainer = document.querySelector(".project-container");
