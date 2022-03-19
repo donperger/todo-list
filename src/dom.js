@@ -4,27 +4,43 @@ const DOMManipulation = (() => {
     const _sidebar = document.querySelector(".sidebar");
     const _contentContainer = document.querySelector(".content-container");
 
-    function displayTasks (tasks) {
-        tasks.forEach(task => {
+    function displayTasks (projectName, tasks) {
+        tasks.forEach((task, index) => {
         const taskCard = document.createElement("div");
         taskCard.classList.add("task-card");
+        taskCard.setAttribute("id", `${projectName}-${index}`)
 
         const taskTitle = document.createElement("h2");
         taskTitle.textContent = task.title;
 
         taskCard.appendChild(taskTitle);
 
-        const taskDescription = document.createElement("div");
-        taskDescription.textContent = task.description;
+        const taksDueDate = document.createElement("div");
+        taksDueDate.textContent = task.dueDate;
 
-        taskCard.appendChild(taskDescription);
+        taskCard.appendChild(taksDueDate);
+
+        taskCard.addEventListener("click", () => {
+            if(taskCard.lastElementChild.textContent !== task.description) {
+                _showDetails(task, taskCard);
+            } else {
+                _hideDetails(taskCard);
+            }
+        });
 
         _contentContainer.appendChild(taskCard);
         })
     }
 
-    function displayDate(task) {
-        console.log(`${task.title}: ${task.dueDate}`);
+    function _showDetails(task, taskCard) {
+        const detailDiv = document.createElement("div");
+        detailDiv.textContent = task.description;
+
+        taskCard.appendChild(detailDiv);
+    }
+
+    function _hideDetails (taskCard) {
+        taskCard.removeChild(taskCard.lastElementChild);
     }
     
     function hideSidebar () {
@@ -49,8 +65,7 @@ const DOMManipulation = (() => {
             const projectName = proj.name;
             projDiv.textContent = _capitalizeFirstLetter(projectName);
             projDiv.addEventListener("click", () =>{
-                console.log(projectName)
-                displayTasks(proj.tasks)
+                displayTasks(proj.name, proj.tasks)
             })
 
             _projContainer.appendChild(projDiv);
@@ -61,7 +76,7 @@ const DOMManipulation = (() => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    return {displayDate, displayTasks, hideSidebar, showSidebar, displayProjects}
+    return {displayTasks, hideSidebar, showSidebar, displayProjects}
 })();
 
 export {DOMManipulation};
