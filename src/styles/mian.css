@@ -12,6 +12,7 @@ body {
     background-color: var(--bg-color);
     height: calc(100vh - var(--footer-height));
     margin: 0;
+    display: flex;
 }
 
 .sidebar {
