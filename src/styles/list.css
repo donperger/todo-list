@@ -1,0 +1,8 @@
+.task-header {
+    display: flex;
+}
+
+.delete-img, 
+.edit-img {
+    height: 1.2rem;
+}
