@@ -1,12 +1,26 @@
 const DOMManipulation = (() => {
-    const _projList = ["general"]
-
     const _addBtn = document.querySelector(".add-task-btn");
     const _projContainer = document.querySelector(".project-container");
     const _sidebar = document.querySelector(".sidebar");
+    const _contentContainer = document.querySelector(".content-container");
 
-    function displayTask (task) {
-        console.log(task.title, task.description);
+    function displayTasks (tasks) {
+        tasks.forEach(task => {
+        const taskCard = document.createElement("div");
+        taskCard.classList.add("task-card");
+
+        const taskTitle = document.createElement("h2");
+        taskTitle.textContent = task.title;
+
+        taskCard.appendChild(taskTitle);
+
+        const taskDescription = document.createElement("div");
+        taskDescription.textContent = task.description;
+
+        taskCard.appendChild(taskDescription);
+
+        _contentContainer.appendChild(taskCard);
+        })
     }
 
     function displayDate(task) {
@@ -27,11 +41,17 @@ const DOMManipulation = (() => {
         _sidebar.style.display = "grid";
     }
 
-    function displayProjects () {
-        _projList.forEach(proj => {
+    function displayProjects (projectList) {
+        projectList.forEach(proj => {
             const projDiv = document.createElement("div");
             projDiv.classList.add("proj-name");
-            projDiv.textContent = _capitalizeFirstLetter(proj);
+
+            const projectName = proj.name;
+            projDiv.textContent = _capitalizeFirstLetter(projectName);
+            projDiv.addEventListener("click", () =>{
+                console.log(projectName)
+                displayTasks(proj.tasks)
+            })
 
             _projContainer.appendChild(projDiv);
         })
@@ -41,7 +61,7 @@ const DOMManipulation = (() => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    return {displayDate, displayTask, hideSidebar, showSidebar, displayProjects}
+    return {displayDate, displayTasks, hideSidebar, showSidebar, displayProjects}
 })();
 
 export {DOMManipulation};
