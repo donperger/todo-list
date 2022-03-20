@@ -1,5 +1,5 @@
 import deleteIcon from "./img/delete-svgrepo-com.svg";
-import editIcon from "./img/edit-svgrepo-com.svg"
+import editIcon from "./img/edit-svgrepo-com.svg";
 
 const DOMManipulation = (() => {
     const _addBtn = document.querySelector(".add-task-btn");
@@ -42,8 +42,8 @@ const DOMManipulation = (() => {
             });
 
             _contentContainer.appendChild(taskCard);
-        })
-    }
+        });
+    };
 
     function _createActionBtn (image, ...imgClasses) {
         const btn = document.createElement("button");
@@ -53,32 +53,32 @@ const DOMManipulation = (() => {
         btn.appendChild(img);
 
         return btn;
-    }
+    };
 
     function _showDetails(task, taskCard) {
         const detailDiv = document.createElement("div");
         detailDiv.textContent = task.description;
 
         taskCard.appendChild(detailDiv);
-    }
+    };
 
     function _hideDetails (taskCard) {
         taskCard.removeChild(taskCard.lastElementChild);
-    }
+    };
     
     function hideSidebar () {
         _addBtn.style.display = "none";
         _projContainer.style.display = "none";
         _sidebar.style.width = "5vw";
         _sidebar.style.display = "block";
-    }
+    };
 
     function showSidebar () {
         _addBtn.style.display = "inline-block";
         _projContainer.style.display = "inline-block";
         _sidebar.style.width = "20vw";
         _sidebar.style.display = "grid";
-    }
+    };
 
     function displayProjects (projectList) {
         projectList.forEach(proj => {
@@ -88,18 +88,67 @@ const DOMManipulation = (() => {
             const projectName = proj.name;
             projDiv.textContent = _capitalizeFirstLetter(projectName);
             projDiv.addEventListener("click", () =>{
+                _contentContainer.textContent = "";
                 _displayTasks(proj.name, proj.tasks)
-            })
+            });
 
             _projContainer.appendChild(projDiv);
-        })
+        });
     }
 
     function _capitalizeFirstLetter (string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
+    function loadForm() {
+        const formContainer = document.createElement("div");
+        formContainer.classList.add("form-container");
+
+        const formElement = document.createElement("form");
+
+        formContainer.appendChild(formElement);
+
+        const formLegend = document.createElement("legend");
+        formLegend.textContent = "Add new task";
+        formLegend.classList.add("legend");
+        formElement.appendChild(formLegend);
+
+        const titleInput = _creatTextInput("Title", "title", true, "Wash dishes", "input-container", "title-input");
+        formElement.appendChild(titleInput);
+
+        const descriptionInput = _creatTextInput("Description", "description", false, "", "input-container", "description-input");
+        formElement.appendChild(descriptionInput);
+
+        const dateInput = _creatTextInput("Due date", "due_date", false, "", "input-container", "date-input");
+        formElement.appendChild(dateInput);
+
+        _contentContainer.textContent = "";
+        _contentContainer.appendChild(formContainer);
     }
 
-    return {hideSidebar, showSidebar, displayProjects}
+    function _creatTextInput (inputName, inptuId, required, placeholder, ...containerClasses) {
+        const container = document.createElement("div");
+        container.classList.add(containerClasses);
+    
+        const label = document.createElement("label");
+        label.textContent = inputName;
+        if ( required === true ) label.textContent = label.textContent + "*";
+        label.setAttribute("for", inptuId);
+        container.appendChild(label);
+    
+        const input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("id", inptuId);
+        input.setAttribute("placeholder", placeholder);
+
+        input.required = required;
+
+        container.appendChild(input);
+
+        return container;
+    }
+
+    return {hideSidebar, showSidebar, displayProjects, loadForm};
 })();
 
 export {DOMManipulation};
