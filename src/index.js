@@ -1,16 +1,25 @@
 import { DOMManipulation } from "./dom.js";
 import { taskOperations } from "./task.js";
+import tinyDatePicker from 'tiny-date-picker';
 import {Project, projectList,createProject} from "./project.js";
 import GitHubIcon from './img/icons8-github.svg';
 import "./img/menu-svgrepo-com.svg"
 import "../src/styles/mian.css";
 import "../src/styles/list.css";
+import "../src/styles/tiny-date-picker.css";
 
 let isSidebarExpanded = true;
 
 const sidebar = document.querySelector(".sidebar");
-const menuButton = document.querySelector(".menu-btn");
-menuButton.addEventListener("click", () => {
+const menuBtn = document.querySelector(".menu-btn");
+const addBtn = document.querySelector(".add-task-btn");
+
+addBtn.addEventListener("click", () => {
+    DOMManipulation.loadForm();
+    tinyDatePicker({ input: document.querySelector('#due_date') });
+})
+
+menuBtn.addEventListener("click", () => {
     if (isSidebarExpanded) {
         
         DOMManipulation.hideSidebar();
