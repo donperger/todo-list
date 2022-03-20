@@ -20,18 +20,10 @@ const DOMManipulation = (() => {
             taskTitle.textContent = task.title;
             taskHeaderDiv.appendChild(taskTitle);
 
-            const editBtn = document.createElement("button");
-            const editImg = new Image();
-            editImg.src = editIcon;
-            editImg.classList.add("edit-img");
-            editBtn.appendChild(editImg);
+            const editBtn = _createActionBtn(editIcon, "edit-img");
             taskHeaderDiv.appendChild(editBtn);
 
-            const deleteBtn = document.createElement("button");
-            const deleteImg = new Image();
-            deleteImg.src = deleteIcon;
-            deleteImg.classList.add("delete-img")
-            deleteBtn.appendChild(deleteImg);
+            const deleteBtn = _createActionBtn(deleteIcon, "delete-img");
             taskHeaderDiv.appendChild(deleteBtn)
 
             taskCard.appendChild(taskHeaderDiv);
@@ -51,6 +43,16 @@ const DOMManipulation = (() => {
 
             _contentContainer.appendChild(taskCard);
         })
+    }
+
+    function _createActionBtn (image, ...imgClasses) {
+        const btn = document.createElement("button");
+        const img = new Image();
+        img.src = image;
+        img.classList.add(imgClasses);
+        btn.appendChild(img);
+
+        return btn;
     }
 
     function _showDetails(task, taskCard) {
