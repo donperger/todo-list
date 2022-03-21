@@ -7,6 +7,7 @@ import "./img/menu-svgrepo-com.svg"
 import "../src/styles/mian.css";
 import "../src/styles/list.css";
 import "../src/styles/tiny-date-picker.css";
+import "../src/styles/toggle-checkbox-radio.css"
 
 let isSidebarExpanded = true;
 
