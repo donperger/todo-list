@@ -122,6 +122,28 @@ const DOMManipulation = (() => {
         const dateInput = _creatTextInput("Due date", "due_date", false, "", "input-container", "date-input");
         formElement.appendChild(dateInput);
 
+        const importantToggleDiv = document.createElement("div");
+        importantToggleDiv.classList.add("toggle-container");
+
+        const importantToggleInput = document.createElement("input");
+        importantToggleInput.setAttribute("type", "checkbox");
+        importantToggleInput.setAttribute("class", "toggle");
+        importantToggleInput.setAttribute("id", "important")
+        importantToggleDiv.appendChild(importantToggleInput);
+        
+        const importantToggleLabel = document.createElement("label");
+        importantToggleLabel.setAttribute("for", "important");
+        importantToggleLabel.classList.add("toggle-label");
+        importantToggleLabel.textContent = "Important";
+        importantToggleDiv.appendChild(importantToggleLabel);
+        formElement.appendChild(importantToggleDiv);
+
+        const addTaskBtn = _creatTextButton("Add task", "add-task");
+        formElement.appendChild(addTaskBtn);
+
+        const cancelBtn = _creatTextButton("Cancel", "cancel-btn");
+        formElement.appendChild(cancelBtn);
+
         _contentContainer.textContent = "";
         _contentContainer.appendChild(formContainer);
     }
@@ -146,6 +168,14 @@ const DOMManipulation = (() => {
         container.appendChild(input);
 
         return container;
+    }
+    
+    function _creatTextButton (textContent, ...btnClasses) {
+        const btn = document.createElement("button");
+        btn.classList.add(btnClasses);
+        btn.textContent = textContent;
+
+        return btn
     }
 
     return {hideSidebar, showSidebar, displayProjects, loadForm};
