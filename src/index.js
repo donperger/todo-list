@@ -18,6 +18,14 @@ const addBtn = document.querySelector(".add-task-btn");
 addBtn.addEventListener("click", () => {
     DOMManipulation.loadForm();
     tinyDatePicker({ input: document.querySelector('#due_date') });
+
+    const addTaskBtn = document.querySelector(".add-task");
+    const cancelBtn = document.querySelector(".cancel-btn");
+
+    addTaskBtn.addEventListener("click", taskOperations.getTaskData);
+    cancelBtn.addEventListener("click", () => {
+        console.log("Cancel");
+    })
 })
 
 menuBtn.addEventListener("click", () => {

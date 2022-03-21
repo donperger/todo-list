@@ -81,6 +81,8 @@ const DOMManipulation = (() => {
     };
 
     function displayProjects (projectList) {
+        _projContainer.textContent = "Projects";
+
         projectList.forEach(proj => {
             const projDiv = document.createElement("div");
             projDiv.classList.add("proj-name");
@@ -138,10 +140,10 @@ const DOMManipulation = (() => {
         importantToggleDiv.appendChild(importantToggleLabel);
         formElement.appendChild(importantToggleDiv);
 
-        const addTaskBtn = _creatTextButton("Add task", "add-task");
+        const addTaskBtn = _creatTextButton("Add task",false, "add-task");
         formElement.appendChild(addTaskBtn);
 
-        const cancelBtn = _creatTextButton("Cancel", "cancel-btn");
+        const cancelBtn = _creatTextButton("Cancel", true, "cancel-btn");
         formElement.appendChild(cancelBtn);
 
         _contentContainer.textContent = "";
@@ -170,9 +172,10 @@ const DOMManipulation = (() => {
         return container;
     }
     
-    function _creatTextButton (textContent, ...btnClasses) {
+    function _creatTextButton (textContent, isSimpleButton, ...btnClasses) {
         const btn = document.createElement("button");
         btn.classList.add(btnClasses);
+        if (isSimpleButton) btn.setAttribute("type", "button");
         btn.textContent = textContent;
 
         return btn
