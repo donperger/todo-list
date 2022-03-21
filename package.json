@@ -25,5 +25,8 @@
     "tiny-date-picker": "^4.0.0-beta6",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2"
+  },
+  "dependencies": {
+    "toggle-checkbox-radio": "^2.0.2"
   }
 }
