@@ -3,7 +3,16 @@ const taskOperations = (() => {
         return { title, description, dueDate, priotiry }
     };
 
-    return {createTask};
+    function getTaskData () {
+        const titleInput = document.querySelector("#title");
+        const descriptionInput = document.querySelector("#description");
+        const dueDateInput = document.querySelector("#due_date");
+        const isImportantInput = document.querySelector("#important");
+
+        console.log(titleInput, descriptionInput, dueDateInput, isImportantInput);
+    }
+
+    return {createTask, getTaskData};
 })();
 
 
