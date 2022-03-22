@@ -17,19 +17,23 @@ class Project {
     }
 }
 
-function createProject (projectName) {
-    const newProject = new Project(projectName);
-    projectList.push(newProject);
+const projectOperations = (() => {
+    function createProject (projectName) {
+        const newProject = new Project(projectName);
+        projectList.push(newProject);
 
-    return newProject;
-}
+        return newProject;
+    }
 
-function searchCurrentProject (currentProjectName) {
-    const currentProject = projectList.find(project => project.name === currentProjectName ? true : false);
+    function searchCurrentProject (currentProjectName) {
+        const currentProject = projectList.find(project => project.name === currentProjectName ? true : false);
 
-    return currentProject;
-}
+        return currentProject;
+    }
+
+    return {createProject, searchCurrentProject}
+})();
 
 const projectList = []
 
-export {Project, projectList, createProject, searchCurrentProject};
+export {Project, projectList, projectOperations};
