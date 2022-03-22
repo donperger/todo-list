@@ -22,9 +22,14 @@ addBtn.addEventListener("click", () => {
     const addTaskBtn = document.querySelector(".add-task");
     const cancelBtn = document.querySelector(".cancel-btn");
 
-    addTaskBtn.addEventListener("click", taskOperations.getTaskData);
+    addTaskBtn.addEventListener("click", () =>{
+        const newTaskData = taskOperations.getTaskData();
+        const newTask = taskOperations.createTask(newTaskData.titleInput, newTaskData.descriptionInput, newTaskData.dueDateInput, newTaskData.isImportantInput);
+        newProj.addTasks(newTask)
+    });
     cancelBtn.addEventListener("click", () => {
         console.log("Cancel");
+        
     })
 })
 
@@ -41,8 +46,8 @@ menuBtn.addEventListener("click", () => {
 
 
 
-const task1 = taskOperations.createTask("Wash dishes", "Clean all the dirty dishes in the sink", "2022.04.18", "not important");
-const task2 = taskOperations.createTask("Feed the dog", "The dog is really hungry,she need to eat two times a day", "2022.04.18", "important");
+const task1 = taskOperations.createTask("Wash dishes", "Clean all the dirty dishes in the sink", "2022.04.18", false);
+const task2 = taskOperations.createTask("Feed the dog", "The dog is really hungry,she need to eat two times a day", "2022.04.18", true);
 
 const newProj = createProject("general");
 newProj.addTasks(task1);
