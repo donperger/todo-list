@@ -1,39 +1,31 @@
-class Project {
-    constructor (name) {
-        this._name = name;
-        this._tasks = [];
-    }
-
-    get name() {
-        return this._name;
-    }
-
-    get tasks() {
-        return this._tasks;
-    }
-
-    addTasks(task) {
-        this._tasks.push(task);
-    }
-}
-
 const projectOperations = (() => {
     function createProject (projectName) {
-        const newProject = new Project(projectName);
-        projectList.push(newProject);
+       if (!localStorage.getItem(projectName)) localStorage.setItem(projectName, "[]");
+    }
 
-        return newProject;
+    function addTaskToProject (projecName, task) {
+        const storedTasks = JSON.parse(localStorage.getItem(projecName));
+        storedTasks.push(task);
+        localStorage.setItem(projecName, JSON.stringify(storedTasks));
     }
 
     function searchCurrentProject (currentProjectName) {
-        const currentProject = projectList.find(project => project.name === currentProjectName ? true : false);
+        const currentProjectTasks = JSON.parse(localStorage.getItem(currentProjectName));
 
-        return currentProject;
+        return currentProjectTasks;
     }
 
-    return {createProject, searchCurrentProject}
+    function _saveProject (project) {
+        localStorage.setItem(project.name, project.task)  
+    }
+
+    function loadProjects() {
+        for (let i = 0; i < localStorage.length; i++) {
+            
+        }
+    }
+
+    return {createProject, addTaskToProject, searchCurrentProject}
 })();
 
-const projectList = []
-
-export {Project, projectList, projectOperations};
+export {projectOperations};
