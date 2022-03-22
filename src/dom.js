@@ -82,22 +82,23 @@ const DOMManipulation = (() => {
         _sidebar.style.display = "grid";
     };
 
-    function displayProjects (projectList) {
+    function displayProjects () {
         _projContainer.textContent = "Projects";
 
-        projectList.forEach(proj => {
+        for (let i = 0; i < localStorage.length; i++) {
             const projDiv = document.createElement("div");
             projDiv.classList.add("proj-name");
 
-            const projectName = proj.name;
+            const projectName = localStorage.key(i);
             projDiv.textContent = _capitalizeFirstLetter(projectName);
             projDiv.addEventListener("click", () =>{
                 _contentContainer.textContent = "";
-                displayTasks(proj.name, proj.tasks)
+                const projectTasks = JSON.parse(localStorage.getItem(projectName)); 
+                displayTasks(projectName, projectTasks);
             });
 
             _projContainer.appendChild(projDiv);
-        });
+        };
     }
 
     function _capitalizeFirstLetter (string) {
