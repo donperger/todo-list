@@ -33,7 +33,7 @@ const DOMManipulation = (() => {
 
             taskCard.appendChild(taksDueDate);
 
-            taskCard.addEventListener("click", () => {
+            taskTitle.addEventListener("click", () => {
                 if(taskCard.lastElementChild.textContent !== task.description) {
                     _showDetails(task, taskCard);
                 } else {
@@ -140,7 +140,7 @@ const DOMManipulation = (() => {
         importantToggleDiv.appendChild(importantToggleLabel);
         formElement.appendChild(importantToggleDiv);
 
-        const addTaskBtn = _creatTextButton("Add task",false, "add-task");
+        const addTaskBtn = _creatTextButton("Add task", true, "add-task");
         formElement.appendChild(addTaskBtn);
 
         const cancelBtn = _creatTextButton("Cancel", true, "cancel-btn");
