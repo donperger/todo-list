@@ -4,12 +4,16 @@ const taskOperations = (() => {
     };
 
     function getTaskData () {
-        const titleInput = document.querySelector("#title");
-        const descriptionInput = document.querySelector("#description");
-        const dueDateInput = document.querySelector("#due_date");
-        const isImportantInput = document.querySelector("#important");
+        const titleInput = document.querySelector("#title").value;
+        const descriptionInput = document.querySelector("#description").value;
+        const dueDateInput = document.querySelector("#due_date").value;
+        const isImportantInput = document.querySelector("#important").checked;
 
-        console.log(titleInput, descriptionInput, dueDateInput, isImportantInput);
+        if (titleInput) {
+            return {titleInput, descriptionInput, dueDateInput, isImportantInput};
+        } else {
+            alert("You have to fill out all required fields!");
+        }
     }
 
     return {createTask, getTaskData};
