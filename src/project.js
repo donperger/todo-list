@@ -24,6 +24,12 @@ function createProject (projectName) {
     return newProject;
 }
 
+function searchCurrentProject (currentProjectName) {
+    const currentProject = projectList.find(project => project.name === currentProjectName ? true : false);
+
+    return currentProject;
+}
+
 const projectList = []
 
-export {Project, projectList, createProject};
+export {Project, projectList, createProject, searchCurrentProject};
