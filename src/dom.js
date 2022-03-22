@@ -7,7 +7,9 @@ const DOMManipulation = (() => {
     const _sidebar = document.querySelector(".sidebar");
     const _contentContainer = document.querySelector(".content-container");
 
-    function _displayTasks (projectName, tasks) {
+    function displayTasks (projectName, tasks) {
+        _contentContainer.textContent = "";
+
         tasks.forEach((task, index) => {
             const taskCard = document.createElement("div");
             taskCard.classList.add("task-card");
@@ -91,7 +93,7 @@ const DOMManipulation = (() => {
             projDiv.textContent = _capitalizeFirstLetter(projectName);
             projDiv.addEventListener("click", () =>{
                 _contentContainer.textContent = "";
-                _displayTasks(proj.name, proj.tasks)
+                displayTasks(proj.name, proj.tasks)
             });
 
             _projContainer.appendChild(projDiv);
@@ -181,7 +183,7 @@ const DOMManipulation = (() => {
         return btn
     }
 
-    return {hideSidebar, showSidebar, displayProjects, loadForm};
+    return {hideSidebar, showSidebar, displayProjects, displayTasks, loadForm};
 })();
 
 export {DOMManipulation};
