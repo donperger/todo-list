@@ -1,6 +1,9 @@
 import deleteIcon from "./img/delete-svgrepo-com.svg";
 import editIcon from "./img/edit-svgrepo-com.svg";
 import { projectOperations } from "./project";
+import { taskOperations } from "./task";
+import tinyDatePicker from 'tiny-date-picker';
+
 
 const DOMManipulation = (() => {
     const _addBtn = document.querySelector(".add-task-btn");
@@ -25,6 +28,26 @@ const DOMManipulation = (() => {
 
             const editBtn = _createActionBtn(editIcon, "edit-img", "edit-btn");
             taskHeaderDiv.appendChild(editBtn);
+
+            editBtn.addEventListener("click", () => {
+                loadForm("Edit task");
+                tinyDatePicker({ input: document.querySelector('#due_date') });
+                _fillOutForm(projectName, task.title);
+
+                const editTaskBtn = document.querySelector(".edit-task");
+                const cancelBtn = document.querySelector(".cancel-btn");
+                const oldTaskTitle = document.querySelector("#title").value;
+
+                editTaskBtn.addEventListener("click", () => {
+                    const taskData = taskOperations.getTaskData();
+                    const newTask = taskOperations.createTask(taskData.titleInput, taskData.descriptionInput, taskData.dueDateInput, taskData.isImportantInput);
+                    projectOperations.updateTask(projectName, oldTaskTitle, newTask);
+
+                    loadCurentProject(projectName);
+                });
+
+                cancelBtn.addEventListener("click", () => loadCurentProject(projectName));
+            });
 
             const deleteBtn = _createActionBtn(deleteIcon, "delete-img", "delete-btn");
             taskHeaderDiv.appendChild(deleteBtn);
@@ -116,7 +139,7 @@ const DOMManipulation = (() => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
-    function loadForm() {
+    function loadForm(formName) {
         const formContainer = document.createElement("div");
         formContainer.classList.add("form-container");
 
@@ -125,7 +148,7 @@ const DOMManipulation = (() => {
         formContainer.appendChild(formElement);
 
         const formLegend = document.createElement("legend");
-        formLegend.textContent = "Add new task";
+        formLegend.textContent = formName;
         formLegend.classList.add("legend");
         formElement.appendChild(formLegend);
 
@@ -154,8 +177,9 @@ const DOMManipulation = (() => {
         importantToggleDiv.appendChild(importantToggleLabel);
         formElement.appendChild(importantToggleDiv);
 
-        const addTaskBtn = _creatTextButton("Add task", true, "add-task");
-        formElement.appendChild(addTaskBtn);
+        const taskBtnClass = formName.toLowerCase().replace(" ", "-");
+        const taskBtn = _creatTextButton(formName, true, taskBtnClass);
+        formElement.appendChild(taskBtn);
 
         const cancelBtn = _creatTextButton("Cancel", true, "cancel-btn");
         formElement.appendChild(cancelBtn);
@@ -195,7 +219,28 @@ const DOMManipulation = (() => {
         return btn
     }
 
-    return {hideSidebar, showSidebar, displayProjects, displayTasks, loadForm};
+    function _fillOutForm(projecName, taskTitle) {
+        const task = projectOperations.getTaskFromProject(projecName, taskTitle);
+
+        const titleInput = document.querySelector("#title");
+        titleInput.value = task.title;
+
+        const descriptionInput = document.querySelector("#description");
+        descriptionInput.value = task.description;
+
+        const dueDateInput = document.querySelector("#due_date");
+        dueDateInput.value = task.dueDate;
+
+        const importantToggleInput = document.querySelector("#important");
+        importantToggleInput.checked = task.priority;
+    }
+
+    function loadCurentProject (currentProjectName) {
+        let currentProjectTasks = projectOperations.searchCurrentProject(currentProjectName);
+        displayTasks(currentProjectName, currentProjectTasks);
+    }
+
+    return {hideSidebar, showSidebar, displayProjects, displayTasks, loadForm, loadCurentProject};
 })();
 
 export {DOMManipulation};
