@@ -15,17 +15,14 @@ const projectOperations = (() => {
         return currentProjectTasks;
     }
 
-    function _saveProject (project) {
-        localStorage.setItem(project.name, project.task)  
+    function deleteTaskFromProject(projectName, taskTitle) {
+        let tasks = JSON.parse(localStorage.getItem(projectName));
+        tasks = tasks.filter((task) => task.title !== taskTitle);
+        tasks = JSON.stringify(tasks)
+        localStorage.setItem(projectName, tasks);
     }
 
-    function loadProjects() {
-        for (let i = 0; i < localStorage.length; i++) {
-            
-        }
-    }
-
-    return {createProject, addTaskToProject, searchCurrentProject}
+    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject}
 })();
 
 export {projectOperations};
