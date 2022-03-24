@@ -22,7 +22,14 @@ const projectOperations = (() => {
         localStorage.setItem(projectName, tasks);
     }
 
-    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject}
+    function getTaskFromProject(projectName, taskTitle) {
+        const tasks = JSON.parse(localStorage.getItem(projectName));
+        const task = tasks.filter((task) => task.title === taskTitle);
+
+        return task[0];
+    }
+
+    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject, getTaskFromProject}
 })();
 
 export {projectOperations};
