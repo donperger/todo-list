@@ -1,5 +1,6 @@
 import deleteIcon from "./img/delete-svgrepo-com.svg";
 import editIcon from "./img/edit-svgrepo-com.svg";
+import { projectOperations } from "./project";
 
 const DOMManipulation = (() => {
     const _addBtn = document.querySelector(".add-task-btn");
@@ -22,11 +23,16 @@ const DOMManipulation = (() => {
             taskTitle.textContent = task.title;
             taskHeaderDiv.appendChild(taskTitle);
 
-            const editBtn = _createActionBtn(editIcon, "edit-img");
+            const editBtn = _createActionBtn(editIcon, "edit-img", "edit-btn");
             taskHeaderDiv.appendChild(editBtn);
 
-            const deleteBtn = _createActionBtn(deleteIcon, "delete-img");
-            taskHeaderDiv.appendChild(deleteBtn)
+            const deleteBtn = _createActionBtn(deleteIcon, "delete-img", "delete-btn");
+            taskHeaderDiv.appendChild(deleteBtn);
+
+            deleteBtn.addEventListener("click", () => {
+                _deleteTaskCard(`${projectName}-${index}`);
+                projectOperations.deleteTaskFromProject(projectName, task.title);
+            });
 
             taskCard.appendChild(taskHeaderDiv);
 
@@ -47,11 +53,12 @@ const DOMManipulation = (() => {
         });
     };
 
-    function _createActionBtn (image, ...imgClasses) {
+    function _createActionBtn (image, imgClass, btnClass) {
         const btn = document.createElement("button");
+        btn.classList.add(btnClass);
         const img = new Image();
         img.src = image;
-        img.classList.add(imgClasses);
+        img.classList.add(imgClass);
         btn.appendChild(img);
 
         return btn;
@@ -81,6 +88,10 @@ const DOMManipulation = (() => {
         _sidebar.style.width = "20vw";
         _sidebar.style.display = "grid";
     };
+
+    function _deleteTaskCard(cardId) {
+        document.getElementById(cardId).remove();
+    }
 
     function displayProjects () {
         _projContainer.textContent = "Projects";
