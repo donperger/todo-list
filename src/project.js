@@ -29,7 +29,22 @@ const projectOperations = (() => {
         return task[0];
     }
 
-    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject, getTaskFromProject}
+    function updateTask (projectName, oldTaskTitle, updatedTask) {
+
+        let tasks = JSON.parse(localStorage.getItem(projectName));
+        tasks = tasks.map((task) => {
+            if (task.title === oldTaskTitle) {
+                return updatedTask;
+            } else {
+                return task;
+            }
+        });
+
+        console.log(tasks)
+        localStorage.setItem(projectName, JSON.stringify(tasks));
+    }
+
+    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject, getTaskFromProject, updateTask}
 })();
 
 export {projectOperations};
