@@ -14,6 +14,7 @@ import "../src/styles/toggle-checkbox-radio.css";
 
 const DOMManipulation = (() => {
     const _addBtn = document.querySelector(".add-task-btn");
+    const _deleteProjBtn = document.querySelector(".delete-project");
     const _projContainer = document.querySelector(".project-container");
     const _sidebar = document.querySelector(".sidebar");
     const _contentContainer = document.querySelector(".content-container");
@@ -107,6 +108,7 @@ const DOMManipulation = (() => {
     
     function hideSidebar () {
         _addBtn.style.display = "none";
+        _deleteProjBtn.style.display = "none";
         _projContainer.style.display = "none";
         _sidebar.style.width = "5vw";
         _sidebar.style.display = "block";
@@ -114,6 +116,7 @@ const DOMManipulation = (() => {
 
     function showSidebar () {
         _addBtn.style.display = "inline-block";
+        _deleteProjBtn.style.display = "inline-block";
         _projContainer.style.display = "inline-block";
         _sidebar.style.width = "20vw";
         _sidebar.style.display = "grid";
@@ -296,9 +299,6 @@ menuBtn.addEventListener("click", () => {
 
     isSidebarExpanded = !isSidebarExpanded;
 });
-
-const task1 = taskOperations.createTask("Wash dishes", "Clean all the dirty dishes in the sink", "4/18/2022", false);
-const task2 = taskOperations.createTask("Feed the dog", "The dog is really hungry,she need to eat two times a day", "4/18/2022", true);
 
 projectOperations.createProject("general");
 

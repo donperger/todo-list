@@ -1,6 +1,7 @@
 const projectOperations = (() => {
-    function createProject (projectName) {
-       if (!localStorage.getItem(projectName)) localStorage.setItem(projectName, "[]");
+    function createProject (projectName, ...tasks) {
+        const tasksJSON = JSON.stringify(tasks);
+        if (!localStorage.getItem(projectName)) localStorage.setItem(projectName, tasksJSON);
     }
 
     function addTaskToProject (projecName, task) {
@@ -10,7 +11,7 @@ const projectOperations = (() => {
             storedTasks.push(task); 
             localStorage.setItem(projecName, JSON.stringify(storedTasks));
         } else {
-            localStorage.setItem(projecName, JSON.stringify([task]));
+            createProject(projecName, task);
         }
     }
 
