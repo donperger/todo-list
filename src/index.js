@@ -1,7 +1,7 @@
 import { DOMManipulation } from "./dom.js";
 import { taskOperations } from "./task.js";
 import tinyDatePicker from 'tiny-date-picker';
-import {Project, projectList,createProject, searchCurrentProject} from "./project.js";
+import {projectOperations} from "./project.js";
 import GitHubIcon from './img/icons8-github.svg';
 import "./img/menu-svgrepo-com.svg"
 import "../src/styles/mian.css";
@@ -10,14 +10,14 @@ import "../src/styles/tiny-date-picker.css";
 import "../src/styles/toggle-checkbox-radio.css"
 
 let isSidebarExpanded = true;
-let currentProjectName = undefined;
+let currentProjectName = "general";
 
 const sidebar = document.querySelector(".sidebar");
 const menuBtn = document.querySelector(".menu-btn");
 const addBtn = document.querySelector(".add-task-btn");
 
 addBtn.addEventListener("click", () => {
-    DOMManipulation.loadForm();
+    DOMManipulation.loadForm("Add task");
     tinyDatePicker({ input: document.querySelector('#due_date') });
 
     const addTaskBtn = document.querySelector(".add-task");
@@ -25,15 +25,18 @@ addBtn.addEventListener("click", () => {
 
     addTaskBtn.addEventListener("click", () =>{
         const newTaskData = taskOperations.getTaskData();
+        const newTasksProject = document.querySelector("#project").value.toLowerCase();
+
         if (newTaskData) {
             const newTask = taskOperations.createTask(newTaskData.titleInput, newTaskData.descriptionInput, newTaskData.dueDateInput, newTaskData.isImportantInput);
-            newProj.addTasks(newTask);
+            projectOperations.addTaskToProject(newTasksProject, newTask);
 
-            loadCurentProject();
+            DOMManipulation.displayProjects();
+            DOMManipulation.loadProject( newTasksProject );
         }
     });
     
-    cancelBtn.addEventListener("click", loadCurentProject)
+    cancelBtn.addEventListener("click",() => DOMManipulation.loadProject(currentProjectName))
 })
 
 menuBtn.addEventListener("click", () => {
@@ -47,17 +50,10 @@ menuBtn.addEventListener("click", () => {
     isSidebarExpanded = !isSidebarExpanded;
 });
 
-const task1 = taskOperations.createTask("Wash dishes", "Clean all the dirty dishes in the sink", "2022.04.18", false);
-const task2 = taskOperations.createTask("Feed the dog", "The dog is really hungry,she need to eat two times a day", "2022.04.18", true);
+const task1 = taskOperations.createTask("Wash dishes", "Clean all the dirty dishes in the sink", "4/18/2022", false);
+const task2 = taskOperations.createTask("Feed the dog", "The dog is really hungry,she need to eat two times a day", "4/18/2022", true);
 
-const newProj = createProject("general");
-newProj.addTasks(task1);
-newProj.addTasks(task2);
+projectOperations.createProject("general");
 
-DOMManipulation.displayProjects(projectList);
-currentProjectName = newProj.name;
+DOMManipulation.displayProjects();
 
-function loadCurentProject () {
-    let currentProject = searchCurrentProject(currentProjectName);
-    DOMManipulation.displayTasks(currentProject.name, currentProject.tasks);
-}

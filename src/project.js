@@ -5,8 +5,13 @@ const projectOperations = (() => {
 
     function addTaskToProject (projecName, task) {
         const storedTasks = JSON.parse(localStorage.getItem(projecName));
-        storedTasks.push(task);
-        localStorage.setItem(projecName, JSON.stringify(storedTasks));
+
+        if (storedTasks) {
+            storedTasks.push(task); 
+            localStorage.setItem(projecName, JSON.stringify(storedTasks));
+        } else {
+            localStorage.setItem(projecName, JSON.stringify([task]));
+        }
     }
 
     function searchCurrentProject (currentProjectName) {
@@ -40,7 +45,6 @@ const projectOperations = (() => {
             }
         });
 
-        console.log(tasks)
         localStorage.setItem(projectName, JSON.stringify(tasks));
     }
 

@@ -43,10 +43,10 @@ const DOMManipulation = (() => {
                     const newTask = taskOperations.createTask(taskData.titleInput, taskData.descriptionInput, taskData.dueDateInput, taskData.isImportantInput);
                     projectOperations.updateTask(projectName, oldTaskTitle, newTask);
 
-                    loadCurentProject(projectName);
+                    loadProject(projectName);
                 });
 
-                cancelBtn.addEventListener("click", () => loadCurentProject(projectName));
+                cancelBtn.addEventListener("click", () => loadProject(projectName));
             });
 
             const deleteBtn = _createActionBtn(deleteIcon, "delete-img", "delete-btn");
@@ -128,6 +128,7 @@ const DOMManipulation = (() => {
             projDiv.addEventListener("click", () =>{
                 _contentContainer.textContent = "";
                 const projectTasks = JSON.parse(localStorage.getItem(projectName)); 
+                console.log(projectTasks);
                 displayTasks(projectName, projectTasks);
             });
 
@@ -151,6 +152,9 @@ const DOMManipulation = (() => {
         formLegend.textContent = formName;
         formLegend.classList.add("legend");
         formElement.appendChild(formLegend);
+
+        const projectInput = _creatTextInput("Project", "project", true, "General", "input-container", "project-input");
+        formElement.appendChild(projectInput);
 
         const titleInput = _creatTextInput("Title", "title", true, "Wash dishes", "input-container", "title-input");
         formElement.appendChild(titleInput);
@@ -222,6 +226,9 @@ const DOMManipulation = (() => {
     function _fillOutForm(projecName, taskTitle) {
         const task = projectOperations.getTaskFromProject(projecName, taskTitle);
 
+        const projectInput = document.querySelector("#project");
+        projectInput.value = projecName;
+
         const titleInput = document.querySelector("#title");
         titleInput.value = task.title;
 
@@ -235,12 +242,13 @@ const DOMManipulation = (() => {
         importantToggleInput.checked = task.priority;
     }
 
-    function loadCurentProject (currentProjectName) {
-        let currentProjectTasks = projectOperations.searchCurrentProject(currentProjectName);
-        displayTasks(currentProjectName, currentProjectTasks);
+    function loadProject (ProjectName) {
+        let currentProjectTasks = projectOperations.searchCurrentProject(ProjectName);
+        console.log(currentProjectTasks);
+        displayTasks(ProjectName, currentProjectTasks);
     }
 
-    return {hideSidebar, showSidebar, displayProjects, displayTasks, loadForm, loadCurentProject};
+    return {hideSidebar, showSidebar, displayProjects, displayTasks, loadForm, loadProject};
 })();
 
 export {DOMManipulation};
