@@ -128,16 +128,17 @@ const DOMManipulation = (() => {
 
     function displayProjects () {
         _projContainer.textContent = "Projects";
+        const projects = projectOperations.getProjects();
 
-        for (let i = 0; i < localStorage.length; i++) {
+        for (let i = 0; i < projects.length; i++) {
             const projDiv = document.createElement("div");
             projDiv.classList.add("proj-name");
 
-            const projectName = localStorage.key(i);
+            const projectName = projects[i];
             projDiv.textContent = _capitalizeFirstLetter(projectName);
             projDiv.addEventListener("click", () =>{
                 _contentContainer.textContent = "";
-                const projectTasks = JSON.parse(localStorage.getItem(projectName)); 
+                const projectTasks = projectOperations.getTasks(projectName); 
                 displayTasks(projectName, projectTasks);
             });
 
@@ -256,6 +257,10 @@ const DOMManipulation = (() => {
         displayTasks(ProjectName, currentProjectTasks);
     }
 
+    function loadDeletForm () {
+
+    }
+
     return {hideSidebar, showSidebar, displayProjects, displayTasks, loadForm, loadProject};
 })();
 
@@ -265,6 +270,7 @@ let currentProjectName = "general";
 const sidebar = document.querySelector(".sidebar");
 const menuBtn = document.querySelector(".menu-btn");
 const addBtn = document.querySelector(".add-task-btn");
+const delProjBtn = document.querySelector(".delete-project");
 
 addBtn.addEventListener("click", () => {
     DOMManipulation.loadForm("Add task");
@@ -288,6 +294,8 @@ addBtn.addEventListener("click", () => {
     
     cancelBtn.addEventListener("click",() => DOMManipulation.loadProject(currentProjectName))
 })
+
+delProjBtn.addEventListener("click", () => console.log(projectOperations.getProjects()))
 
 menuBtn.addEventListener("click", () => {
     if (isSidebarExpanded) {
