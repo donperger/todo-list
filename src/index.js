@@ -257,11 +257,50 @@ const DOMManipulation = (() => {
         displayTasks(ProjectName, currentProjectTasks);
     }
 
-    function loadDeletForm () {
+    function loadDeletForm (projects) {
+        const formContainer = document.createElement("div");
+        formContainer.classList.add("form-container");
 
+        const titleDiv = document.createElement("h2");
+        titleDiv.textContent = "Delete projects";
+        formContainer.appendChild(titleDiv);
+
+        projects.forEach((project) => {
+            const child = _makeCheckbox(project);
+            formContainer.appendChild(child);
+        })
+
+        const delBtn = _creatTextButton("Delete projects", true, "delete-proj-btn");
+        formContainer.appendChild(delBtn);
+
+        const cancelBtn = _creatTextButton("Cancel", true, "cancel-btn");
+        formContainer.appendChild(cancelBtn);
+
+        _contentContainer.textContent = "";
+        _contentContainer.appendChild(formContainer);        
     }
 
-    return {hideSidebar, showSidebar, displayProjects, displayTasks, loadForm, loadProject};
+    function _makeCheckbox(checkboxLabel) {
+        const idFor = checkboxLabel.toLowerCase().replace(" ", "_");
+
+        const checkboxDiv = document.createElement("div");
+
+        const checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.setAttribute("id", idFor);
+        checkbox.setAttribute("name", "project");
+        checkbox.setAttribute("value", idFor);
+        checkboxDiv.appendChild(checkbox);
+
+        const label = document.createElement("label");
+        label.setAttribute("for", idFor);
+        label.textContent = checkboxLabel;
+        checkboxDiv.appendChild(label);
+
+        return checkboxDiv;
+    }
+
+    return {hideSidebar, showSidebar, displayProjects, displayTasks, loadForm, loadProject, loadDeletForm};
 })();
 
 let isSidebarExpanded = true;
@@ -295,7 +334,23 @@ addBtn.addEventListener("click", () => {
     cancelBtn.addEventListener("click",() => DOMManipulation.loadProject(currentProjectName))
 })
 
-delProjBtn.addEventListener("click", () => console.log(projectOperations.getProjects()))
+delProjBtn.addEventListener("click", () => {
+    const projects = projectOperations.getProjects();
+    DOMManipulation.loadDeletForm(projects);
+
+    const delProjBtn = document.querySelector(".delete-proj-btn");
+    const cancelBtn = document.querySelector(".cancel-btn");
+
+    delProjBtn.addEventListener("click", () => {
+        const formData = projectOperations.getDeletFormData(projects);
+        projectOperations.deleteProjects(formData);
+
+        DOMManipulation.displayProjects();
+        DOMManipulation.loadProject( currentProjectName );        
+    });
+
+    cancelBtn.addEventListener("click", () => DOMManipulation.loadProject(currentProjectName));
+})
 
 menuBtn.addEventListener("click", () => {
     if (isSidebarExpanded) {

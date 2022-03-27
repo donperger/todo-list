@@ -49,8 +49,12 @@ const projectOperations = (() => {
         localStorage.setItem(projectName, JSON.stringify(tasks));
     }
 
-    function deleteProject (projecName) {
-        localStorage.removeItem(projecName);
+    function deleteProjects (projects) {
+        projects.forEach((project) => {
+            if (project.isChecked) {
+            localStorage.removeItem(project.name);
+            }
+        })
     }
 
     function getProjects () {
@@ -67,7 +71,21 @@ const projectOperations = (() => {
         return JSON.parse(localStorage.getItem(projectName));
     }
 
-    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject, getTaskFromProject, updateTask, deleteProject, getProjects, getTasks}
+    function getDeletFormData (projects) {
+        const deleteFromData = [];
+
+        projects.forEach((project) => {
+            const projCheckboxId = project.toLowerCase().replace(" ", "_");
+            const projCheckboxValue = document.getElementById(projCheckboxId).checked;
+
+            deleteFromData.push({name: project ,isChecked: projCheckboxValue});
+        })
+
+        return deleteFromData;
+    }
+
+    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject, getTaskFromProject, updateTask, deleteProjects, getProjects, getTasks, 
+            getDeletFormData}
 })();
 
 export {projectOperations};
