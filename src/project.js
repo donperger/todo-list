@@ -53,7 +53,21 @@ const projectOperations = (() => {
         localStorage.removeItem(projecName);
     }
 
-    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject, getTaskFromProject, updateTask, deleteProject}
+    function getProjects () {
+        const projects = [];
+
+        for (let i = 0; i < localStorage.length; i++) {
+            projects.push(localStorage.key(i));
+        };
+
+        return projects;
+    }
+
+    function getTasks(projectName) {
+        return JSON.parse(localStorage.getItem(projectName));
+    }
+
+    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject, getTaskFromProject, updateTask, deleteProject, getProjects, getTasks}
 })();
 
 export {projectOperations};
