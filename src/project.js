@@ -49,7 +49,11 @@ const projectOperations = (() => {
         localStorage.setItem(projectName, JSON.stringify(tasks));
     }
 
-    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject, getTaskFromProject, updateTask}
+    function deleteProject (projecName) {
+        localStorage.removeItem(projecName);
+    }
+
+    return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject, getTaskFromProject, updateTask, deleteProject}
 })();
 
 export {projectOperations};
