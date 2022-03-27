@@ -135,7 +135,6 @@ const DOMManipulation = (() => {
             projDiv.addEventListener("click", () =>{
                 _contentContainer.textContent = "";
                 const projectTasks = JSON.parse(localStorage.getItem(projectName)); 
-                console.log(projectTasks);
                 displayTasks(projectName, projectTasks);
             });
 
@@ -251,7 +250,6 @@ const DOMManipulation = (() => {
 
     function loadProject (ProjectName) {
         let currentProjectTasks = projectOperations.searchCurrentProject(ProjectName);
-        console.log(currentProjectTasks);
         displayTasks(ProjectName, currentProjectTasks);
     }
 
