@@ -1,6 +1,7 @@
 import { taskOperations } from "./task.js";
-import tinyDatePicker from 'tiny-date-picker';
+import TinyDatePicker from 'tiny-date-picker';
 import {projectOperations} from "./project.js";
+import format from "date-fns/format";
 
 import GitHubIcon from './img/icons8-github.svg';
 import deleteIcon from "./img/delete-svgrepo-com.svg";
@@ -26,19 +27,17 @@ const DOMManipulation = (() => {
         projectTitle.textContent = _capitalizeFirstLetter(projectName);
         _contentContainer.appendChild(projectTitle);
 
-        const importantDiv = document.createElement("div");
-        importantDiv.classList.add("important-container");
-        const importantTitle = document.createElement("h2");
-        importantTitle.textContent = "Importnat tasks";
-        importantDiv.appendChild(importantTitle);
+        const importantDiv = _createContainerDiv("Importnat tasks")
         _contentContainer.appendChild(importantDiv);
 
-        const otherDiv = document.createElement("div");
-        otherDiv.classList.add("other-container");
-        const otherTitle = document.createElement("h2");
-        otherTitle.textContent = "Other tasks";
-        otherDiv.appendChild(otherTitle);
-        _contentContainer.appendChild(otherDiv);
+        const tasksDiv = _createContainerDiv("Tasks");
+        _contentContainer.appendChild(tasksDiv);
+
+        const noDateDiv = _createContainerDiv("No due date");
+        _contentContainer.appendChild(noDateDiv);
+
+        const doneDiv = _createContainerDiv("Done");
+        _contentContainer.appendChild(doneDiv);
 
 
         const tasks = projectOperations.sortTasksByPriority(projectName);
@@ -65,7 +64,10 @@ const DOMManipulation = (() => {
 
             editBtn.addEventListener("click", () => {
                 loadForm("Edit task");
-                tinyDatePicker({ input: document.querySelector('#due_date') });
+                TinyDatePicker({ input: document.querySelector('#due_date'),
+                    min: new Date(),
+                    dayOffset: 1,
+                });
                 _fillOutForm(projectName, task.title);
 
                 const editTaskBtn = document.querySelector(".edit-task");
@@ -94,7 +96,12 @@ const DOMManipulation = (() => {
             taskCard.appendChild(taskHeaderDiv);
 
             const taksDueDate = document.createElement("div");
-            taksDueDate.textContent = `Due date: ${task.dueDate}`;
+            if (task.dueDate) {
+                const formattedDate = format(new Date(task.dueDate), 'do MMMM y')
+                taksDueDate.textContent = `Due date: ${formattedDate}`;
+            } else {
+                taksDueDate.textContent = "No due date"
+            }
 
             taskCard.appendChild(taksDueDate);
 
@@ -114,13 +121,28 @@ const DOMManipulation = (() => {
                 }
             })
 
-            if (task.isImportant) {
+            if (task.isDone) {
+                doneDiv.appendChild(taskCard);
+            } else if (!task.dueDate) {
+                noDateDiv.appendChild(taskCard)
+            } else if (task.isImportant) {
                 importantDiv.appendChild(taskCard);
             } else {
-                otherDiv.appendChild(taskCard);
+                tasksDiv.appendChild(taskCard);
             }
         });
     };
+
+    function _createContainerDiv (divTitle) {
+        const div = document.createElement("div");
+        const divClass = divTitle.toLowerCase().replaceAll(" ", "-");
+        div.classList.add(`${divClass}-container`);
+        const title = document.createElement("h2");
+        title.textContent = divTitle;
+        div.appendChild(title);
+
+        return div;
+    }
 
     function _createActionBtn (image, imgClass, btnClass) {
         const btn = document.createElement("button");
@@ -351,7 +373,10 @@ const delProjBtn = document.querySelector(".delete-project");
 
 addBtn.addEventListener("click", () => {
     DOMManipulation.loadForm("Add task");
-    tinyDatePicker({ input: document.querySelector('#due_date') });
+    TinyDatePicker({ input: document.querySelector('#due_date'),
+      min: new Date(),
+      dayOffset: 1,
+    });
 
     const addTaskBtn = document.querySelector(".add-task");
     const cancelBtn = document.querySelector(".cancel-btn");

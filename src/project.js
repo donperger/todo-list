@@ -88,15 +88,16 @@ const projectOperations = (() => {
 
     function sortTasksByPriority (projectName) {
         const importantTasks = JSON.parse(localStorage.getItem(projectName)).filter(task => task.isImportant);
-        const test = _sortTasksByDate(importantTasks);
+        _sortTasksByDate(importantTasks);
         const notImportantTasks = JSON.parse(localStorage.getItem(projectName)).filter(task => !task.isImportant);
+        _sortTasksByDate(notImportantTasks);
         const sortedTasks = importantTasks.concat(notImportantTasks);
 
         return sortedTasks;
     }
 
     function _sortTasksByDate (tasks) {
-        tasks.sort((taksA, taksB) => taksA.dueDate > taksB.dueDate ? -1 : 1);
+        tasks.sort((taksA, taksB) => taksA.dueDate > taksB.dueDate ? 1 : -1);
 
         return tasks
     }
