@@ -52,8 +52,23 @@ const DOMManipulation = (() => {
 
             const taskCheckbox = document.createElement("input");
             taskCheckbox.setAttribute("type", "checkbox");
+            if (task.isDone) taskCheckbox.setAttribute("checked", "ture");
             taskCheckbox.setAttribute("id", task.title.toLowerCase().replaceAll(" ", "-"));
             taskHeaderDiv.appendChild(taskCheckbox);
+
+            taskCheckbox.addEventListener("change", () => {
+                const taskToDone = projectOperations.getTaskFromProject(projectName, task.title);
+
+                if (taskCheckbox.checked) {
+                    taskToDone.isDone = true;
+                } else {
+                    taskToDone.isDone = false;
+                }
+
+                projectOperations.updateTask(projectName, task.title, taskToDone);
+
+                displayTasks(projectName);
+            })
 
             const taskTitle = document.createElement("h2");
             taskTitle.textContent = task.title;
@@ -112,14 +127,6 @@ const DOMManipulation = (() => {
                     _hideDetails(taskCard);
                 }
             });
-
-            taskCheckbox.addEventListener("change", () => {
-                if (taskCheckbox.checked) {
-                    console.log(projectName, task.title)
-                } else {
-                    console.log("not checked")
-                }
-            })
 
             if (task.isDone) {
                 doneDiv.appendChild(taskCard);
