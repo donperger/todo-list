@@ -55,6 +55,8 @@ const projectOperations = (() => {
             localStorage.removeItem(project.name);
             }
         })
+
+        if (!localStorage.getItem("general")) createProject("general");
     }
 
     function getProjects () {
@@ -75,7 +77,7 @@ const projectOperations = (() => {
         const deleteFromData = [];
 
         projects.forEach((project) => {
-            const projCheckboxId = project.toLowerCase().replace(" ", "_");
+            const projCheckboxId = project.toLowerCase().replaceAll(" ", "_");
             const projCheckboxValue = document.getElementById(projCheckboxId).checked;
 
             deleteFromData.push({name: project ,isChecked: projCheckboxValue});
@@ -84,8 +86,23 @@ const projectOperations = (() => {
         return deleteFromData;
     }
 
+    function sortTasksByPriority (projectName) {
+        const importantTasks = JSON.parse(localStorage.getItem(projectName)).filter(task => task.isImportant);
+        const test = _sortTasksByDate(importantTasks);
+        const notImportantTasks = JSON.parse(localStorage.getItem(projectName)).filter(task => !task.isImportant);
+        const sortedTasks = importantTasks.concat(notImportantTasks);
+
+        return sortedTasks;
+    }
+
+    function _sortTasksByDate (tasks) {
+        tasks.sort((taksA, taksB) => taksA.dueDate > taksB.dueDate ? -1 : 1);
+
+        return tasks
+    }
+
     return {createProject, addTaskToProject, searchCurrentProject, deleteTaskFromProject, getTaskFromProject, updateTask, deleteProjects, getProjects, getTasks, 
-            getDeletFormData}
+            getDeletFormData, sortTasksByPriority}
 })();
 
 export {projectOperations};

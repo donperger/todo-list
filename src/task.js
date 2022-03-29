@@ -1,6 +1,7 @@
 const taskOperations = (() => {
-    const createTask = (title, description, dueDate, priotiry) => {
-        return { title, description, dueDate, priotiry }
+    const createTask = (title, description, dueDate, isImportant) => {
+        const isDone = false;
+        return { title, description, dueDate, isImportant, isDone }
     };
 
     function getTaskData () {

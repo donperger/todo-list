@@ -19,8 +19,29 @@ const DOMManipulation = (() => {
     const _sidebar = document.querySelector(".sidebar");
     const _contentContainer = document.querySelector(".content-container");
 
-    function displayTasks (projectName, tasks) {
+    function displayTasks (projectName) {
         _contentContainer.textContent = "";
+
+        const projectTitle = document.createElement("h1");
+        projectTitle.textContent = _capitalizeFirstLetter(projectName);
+        _contentContainer.appendChild(projectTitle);
+
+        const importantDiv = document.createElement("div");
+        importantDiv.classList.add("important-container");
+        const importantTitle = document.createElement("h2");
+        importantTitle.textContent = "Importnat tasks";
+        importantDiv.appendChild(importantTitle);
+        _contentContainer.appendChild(importantDiv);
+
+        const otherDiv = document.createElement("div");
+        otherDiv.classList.add("other-container");
+        const otherTitle = document.createElement("h2");
+        otherTitle.textContent = "Other tasks";
+        otherDiv.appendChild(otherTitle);
+        _contentContainer.appendChild(otherDiv);
+
+
+        const tasks = projectOperations.sortTasksByPriority(projectName);
 
         tasks.forEach((task, index) => {
             const taskCard = document.createElement("div");
@@ -29,6 +50,11 @@ const DOMManipulation = (() => {
 
             const taskHeaderDiv = document.createElement("div");
             taskHeaderDiv.classList.add("task-header");
+
+            const taskCheckbox = document.createElement("input");
+            taskCheckbox.setAttribute("type", "checkbox");
+            taskCheckbox.setAttribute("id", task.title.toLowerCase().replaceAll(" ", "-"));
+            taskHeaderDiv.appendChild(taskCheckbox);
 
             const taskTitle = document.createElement("h2");
             taskTitle.textContent = task.title;
@@ -68,7 +94,7 @@ const DOMManipulation = (() => {
             taskCard.appendChild(taskHeaderDiv);
 
             const taksDueDate = document.createElement("div");
-            taksDueDate.textContent = task.dueDate;
+            taksDueDate.textContent = `Due date: ${task.dueDate}`;
 
             taskCard.appendChild(taksDueDate);
 
@@ -80,7 +106,19 @@ const DOMManipulation = (() => {
                 }
             });
 
-            _contentContainer.appendChild(taskCard);
+            taskCheckbox.addEventListener("change", () => {
+                if (taskCheckbox.checked) {
+                    console.log(projectName, task.title)
+                } else {
+                    console.log("not checked")
+                }
+            })
+
+            if (task.isImportant) {
+                importantDiv.appendChild(taskCard);
+            } else {
+                otherDiv.appendChild(taskCard);
+            }
         });
     };
 
@@ -191,7 +229,7 @@ const DOMManipulation = (() => {
         importantToggleDiv.appendChild(importantToggleLabel);
         formElement.appendChild(importantToggleDiv);
 
-        const taskBtnClass = formName.toLowerCase().replace(" ", "-");
+        const taskBtnClass = formName.toLowerCase().replaceAll(" ", "-");
         const taskBtn = _creatTextButton(formName, true, taskBtnClass);
         formElement.appendChild(taskBtn);
 
@@ -249,7 +287,7 @@ const DOMManipulation = (() => {
         dueDateInput.value = task.dueDate;
 
         const importantToggleInput = document.querySelector("#important");
-        importantToggleInput.checked = task.priority;
+        importantToggleInput.checked = task.isImportant;
     }
 
     function loadProject (ProjectName) {
@@ -266,7 +304,7 @@ const DOMManipulation = (() => {
         formContainer.appendChild(titleDiv);
 
         projects.forEach((project) => {
-            const child = _makeCheckbox(project);
+            const child = _createCheckbox(project);
             formContainer.appendChild(child);
         })
 
@@ -280,8 +318,8 @@ const DOMManipulation = (() => {
         _contentContainer.appendChild(formContainer);        
     }
 
-    function _makeCheckbox(checkboxLabel) {
-        const idFor = checkboxLabel.toLowerCase().replace(" ", "_");
+    function _createCheckbox(checkboxLabel) {
+        const idFor = checkboxLabel.toLowerCase().replaceAll(" ", "_");
 
         const checkboxDiv = document.createElement("div");
 
@@ -338,10 +376,11 @@ delProjBtn.addEventListener("click", () => {
     const projects = projectOperations.getProjects();
     DOMManipulation.loadDeletForm(projects);
 
-    const delProjBtn = document.querySelector(".delete-proj-btn");
+    const formDelProjBtn = document.querySelector(".delete-proj-btn");
     const cancelBtn = document.querySelector(".cancel-btn");
 
-    delProjBtn.addEventListener("click", () => {
+    formDelProjBtn.addEventListener("click", () => {
+        console.log(projects)
         const formData = projectOperations.getDeletFormData(projects);
         projectOperations.deleteProjects(formData);
 
@@ -366,4 +405,5 @@ menuBtn.addEventListener("click", () => {
 projectOperations.createProject("general");
 
 DOMManipulation.displayProjects();
+DOMManipulation.displayTasks("general");
 
