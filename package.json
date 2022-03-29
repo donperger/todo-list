@@ -27,6 +27,7 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "date-fns": "^2.28.0",
     "toggle-checkbox-radio": "^2.0.2"
   }
 }
