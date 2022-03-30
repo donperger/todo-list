@@ -377,7 +377,7 @@ input[type=radio].checkbox {
   input[type=checkbox].checkbox:active, input[type=checkbox].checkbox:focus,
   input[type=radio].checkbox:active,
   input[type=radio].checkbox:focus {
-    border-color: rgba(0, 123, 255, 0.25); }
+    border-color: rgba(255, 255, 255, 0.25); }
   input[type=checkbox].checkbox:before,
   input[type=radio].checkbox:before {
     content: "";
