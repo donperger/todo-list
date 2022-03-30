@@ -207,11 +207,11 @@ const DOMManipulation = (() => {
     };
 
     function showSidebar () {
-        _appTitle.style.display = "inline-block";
-        _addBtn.style.display = "inline-block";
-        _deleteProjBtn.style.display = "inline-block";
-        _projContainer.style.display = "inline-block";
-        _sidebar.style.width = "20vw";
+        _appTitle.style.display = "block";
+        _addBtn.style.display = "block";
+        _deleteProjBtn.style.display = "block";
+        _projContainer.style.display = "block";
+        _sidebar.style.width = "var(--sidebar-width)";
         _sidebar.style.display = "grid";
     };
 
