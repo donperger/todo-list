@@ -1,9 +1,13 @@
 :root {
-    --footer-bg-color: #8C5535;
+    --footer-bg-color: #F28322;
     --footer-height: 5vh;
+    --light-font-color: #fff;
     --dark-font-color: #424242;
-    --bg-color: #D9C4B8;
-    --sidebar-color: #F28C0F;
+    --bg-color: #4184BF;
+    --sidebar-color: #220859;
+    --title-color: #F20587;
+    --sidebar-btn-clr: #714674;
+    --sidebar-btn-clr-dark: #432371;
 }
 
 body {
@@ -21,27 +25,80 @@ body {
     background-color: var(--sidebar-color);
     display: grid;
     grid-template-columns: 15vw 5vw;
-    grid-template-rows: 5rem;
+    grid-template-rows: repeat(2, 4rem);
+    color: var(--light-font-color);
+    padding: 0.5rem;
+}
+
+.app-title {
+    grid-column: 1 / 3;
+    place-self: center;
+    font-size: 2.2rem;
+    font-family: 'Palette Mosaic', cursive;
 }
 
 .sidebar button {
-    height: 2rem;
+    box-sizing: border-box;
+    height: 2.5rem;
+    margin-top: 1rem;
+    background:linear-gradient(to bottom, var(--sidebar-btn-clr) 5%, var(--sidebar-btn-clr-dark) 100%);
+	background-color: var(--sidebar-btn-clr);
+    font-family: 'Secular One', sans-serif;
+    font-size: .85rem;
+    border: 1px solid #000;
+    border-radius: .5rem;
+    padding: .5rem 1rem;
+    color: var(--light-font-color);
+    cursor: pointer;
+    transition: .5s;
+}
+
+.sidebar button:hover {
+    background:linear-gradient(to bottom, var(--sidebar-btn-clr-dark) 5%, var(--sidebar-btn-clr) 100%);
+	background-color: var(--sidebar-btn-clr);
+}
+
+.sidebar button:active {
+    position: relative;
+    bottom: .2rem;
+}
+
+.sidebar-btn-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    place-self: center;
 }
 
 .menu-btn {
     width: 4vw;
+    place-self: center;
 }
+
+.menu-img {
+    height: 1.5rem;
+    filter: invert(98%) sepia(56%) saturate(278%) hue-rotate(171deg) brightness(118%) contrast(100%);}
 
 .project-container {
     grid-column: 1 / 3;
 }
 
-.proj-name {
-    margin-left: 1rem;
+.project-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--title-color);
 }
 
-.menu-img {
-    height: 1.5rem;
+.proj-name {
+    margin: 0.5rem 0 0.5rem 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.proj-name:hover {
+    position: relative;
+    left: .5rem;
 }
 
 .footer-container {
