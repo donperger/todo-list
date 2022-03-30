@@ -12,6 +12,7 @@ import "../src/styles/mian.css";
 import "../src/styles/list.css";
 import "../src/styles/tiny-date-picker.css";
 import "../src/styles/toggle-checkbox-radio.css";
+import "../src/styles/forms.css";
 
 const DOMManipulation = (() => {
     const _appTitle = document.querySelector(".app-title");
@@ -259,16 +260,17 @@ const DOMManipulation = (() => {
         formLegend.classList.add("legend");
         formElement.appendChild(formLegend);
 
-        const projectInput = _creatTextInput("Project", "project", true, "General", "input-container", "project-input");
+        const projectInput = _creatTextInput("Project", "project", true, "General", false, "input-container", "project-input");
         formElement.appendChild(projectInput);
 
-        const titleInput = _creatTextInput("Title", "title", true, "Wash dishes", "input-container", "title-input");
+        const titleInput = _creatTextInput("Title", "title", true, "Wash dishes", false, "input-container", "title-input");
         formElement.appendChild(titleInput);
 
-        const descriptionInput = _creatTextInput("Description", "description", false, "", "input-container", "description-input");
+        const descriptionInput = _creatTextInput("Description", "description", false, "", true, "input-container", "description-input");
+        descriptionInput.setAttribute("type", "text")
         formElement.appendChild(descriptionInput);
 
-        const dateInput = _creatTextInput("Due date", "due_date", false, "", "input-container", "date-input");
+        const dateInput = _creatTextInput("Due date", "due_date", false, "", false, "input-container", "date-input");
         formElement.appendChild(dateInput);
 
         const importantToggleDiv = document.createElement("div");
@@ -298,17 +300,22 @@ const DOMManipulation = (() => {
         _contentContainer.appendChild(formContainer);
     }
 
-    function _creatTextInput (inputName, inptuId, required, placeholder, ...containerClasses) {
+    function _creatTextInput (inputName, inptuId, required, placeholder, isTextarea, ...containerClasses) {
         const container = document.createElement("div");
-        container.classList.add(containerClasses);
+        container.classList.add(...containerClasses);
     
         const label = document.createElement("label");
         label.textContent = inputName;
         if ( required === true ) label.textContent = label.textContent + "*";
         label.setAttribute("for", inptuId);
         container.appendChild(label);
-    
-        const input = document.createElement("input");
+
+        let input;
+        if (isTextarea) {
+            input = document.createElement("textarea");
+        } else {
+            input = document.createElement("input");
+        }
         input.setAttribute("type", "text");
         input.setAttribute("id", inptuId);
         input.setAttribute("placeholder", placeholder);
