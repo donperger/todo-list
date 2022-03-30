@@ -91,7 +91,9 @@ const DOMManipulation = (() => {
 
                 editTaskBtn.addEventListener("click", () => {
                     const taskData = taskOperations.getTaskData();
-                    const newTask = taskOperations.createTask(taskData.titleInput, taskData.descriptionInput, taskData.dueDateInput, taskData.isImportantInput);
+                    const isDoneValue = task.isDone;
+                    const newTask = taskOperations.createTask(taskData.titleInput, taskData.descriptionInput, taskData.dueDateInput, 
+                        taskData.isImportantInput, isDoneValue);
                     projectOperations.updateTask(projectName, oldTaskTitle, newTask);
 
                     loadProject(projectName);
@@ -393,7 +395,8 @@ addBtn.addEventListener("click", () => {
         const newTasksProject = document.querySelector("#project").value.toLowerCase();
 
         if (newTaskData) {
-            const newTask = taskOperations.createTask(newTaskData.titleInput, newTaskData.descriptionInput, newTaskData.dueDateInput, newTaskData.isImportantInput);
+            const newTask = taskOperations.createTask(newTaskData.titleInput, newTaskData.descriptionInput, 
+                newTaskData.dueDateInput, newTaskData.isImportantInput, false);
             projectOperations.addTaskToProject(newTasksProject, newTask);
 
             DOMManipulation.displayProjects();
