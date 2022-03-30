@@ -289,12 +289,22 @@ const DOMManipulation = (() => {
         importantToggleDiv.appendChild(importantToggleLabel);
         formElement.appendChild(importantToggleDiv);
 
+        const formBtnContanier = document.createElement("div");
+        formBtnContanier.classList.add("form-btn-container");
+
         const taskBtnClass = formName.toLowerCase().replaceAll(" ", "-");
         const taskBtn = _creatTextButton(formName, true, taskBtnClass);
-        formElement.appendChild(taskBtn);
+        formBtnContanier.appendChild(taskBtn);
 
         const cancelBtn = _creatTextButton("Cancel", true, "cancel-btn");
-        formElement.appendChild(cancelBtn);
+        formBtnContanier.appendChild(cancelBtn);
+
+        formElement.appendChild(formBtnContanier);
+
+        const requiredTitle = document.createElement("div");
+        requiredTitle.classList.add("required-title");
+        requiredTitle.textContent = "*required";
+        formElement.appendChild(requiredTitle); 
 
         _contentContainer.textContent = "";
         _contentContainer.appendChild(formContainer);
@@ -313,6 +323,7 @@ const DOMManipulation = (() => {
         let input;
         if (isTextarea) {
             input = document.createElement("textarea");
+            input.setAttribute("rows", "5");
         } else {
             input = document.createElement("input");
         }
@@ -361,26 +372,38 @@ const DOMManipulation = (() => {
     }
 
     function loadDeletForm (projects) {
-        const formContainer = document.createElement("div");
-        formContainer.classList.add("form-container");
+        const deleteFormContainer = document.createElement("div");
+        deleteFormContainer.classList.add("delete-form-container");
 
-        const titleDiv = document.createElement("h2");
-        titleDiv.textContent = "Delete projects";
-        formContainer.appendChild(titleDiv);
+        const formContainer = document.createElement("div");
+        formContainer.classList.add("form-container")
+
+        deleteFormContainer.appendChild(formContainer);
+
+        const titleLegend = document.createElement("legend");
+        titleLegend.classList.add("legend");
+        titleLegend.textContent = "Delete projects";
+        formContainer.appendChild(titleLegend);
 
         projects.forEach((project) => {
             const child = _createCheckbox(project);
+            child.classList.add("project-div");
             formContainer.appendChild(child);
         })
 
+        const formBtnContanier = document.createElement("div");
+        formBtnContanier.classList.add("form-btn-container");
+
         const delBtn = _creatTextButton("Delete projects", true, "delete-proj-btn");
-        formContainer.appendChild(delBtn);
+        formBtnContanier.appendChild(delBtn);
 
         const cancelBtn = _creatTextButton("Cancel", true, "cancel-btn");
-        formContainer.appendChild(cancelBtn);
+        formBtnContanier.appendChild(cancelBtn);
+
+        formContainer.appendChild(formBtnContanier);
 
         _contentContainer.textContent = "";
-        _contentContainer.appendChild(formContainer);        
+        _contentContainer.appendChild(deleteFormContainer);        
     }
 
     function _createCheckbox(checkboxLabel) {
@@ -393,11 +416,12 @@ const DOMManipulation = (() => {
         checkbox.setAttribute("id", idFor);
         checkbox.setAttribute("name", "project");
         checkbox.setAttribute("value", idFor);
+        checkbox.classList.add("checkbox", "color-danger");
         checkboxDiv.appendChild(checkbox);
 
         const label = document.createElement("label");
         label.setAttribute("for", idFor);
-        label.textContent = checkboxLabel;
+        label.textContent = _capitalizeFirstLetter(checkboxLabel);
         checkboxDiv.appendChild(label);
 
         return checkboxDiv;
