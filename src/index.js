@@ -14,6 +14,7 @@ import "../src/styles/tiny-date-picker.css";
 import "../src/styles/toggle-checkbox-radio.css";
 
 const DOMManipulation = (() => {
+    const _appTitle = document.querySelector(".app-title");
     const _addBtn = document.querySelector(".add-task-btn");
     const _deleteProjBtn = document.querySelector(".delete-project");
     const _projContainer = document.querySelector(".project-container");
@@ -24,10 +25,11 @@ const DOMManipulation = (() => {
         _contentContainer.textContent = "";
 
         const projectTitle = document.createElement("h1");
+        projectTitle.classList.add("list-title")
         projectTitle.textContent = _capitalizeFirstLetter(projectName);
         _contentContainer.appendChild(projectTitle);
 
-        const importantDiv = _createContainerDiv("Importnat tasks")
+        const importantDiv = _createContainerDiv("Important tasks")
         _contentContainer.appendChild(importantDiv);
 
         const tasksDiv = _createContainerDiv("Tasks");
@@ -52,6 +54,7 @@ const DOMManipulation = (() => {
 
             const taskCheckbox = document.createElement("input");
             taskCheckbox.setAttribute("type", "checkbox");
+            taskCheckbox.classList.add("checkbox", "color-dark")
             if (task.isDone) taskCheckbox.setAttribute("checked", "ture");
             taskCheckbox.setAttribute("id", task.title.toLowerCase().replaceAll(" ", "-"));
             taskHeaderDiv.appendChild(taskCheckbox);
@@ -72,10 +75,14 @@ const DOMManipulation = (() => {
 
             const taskTitle = document.createElement("h2");
             taskTitle.textContent = task.title;
+            taskTitle.classList.add("task-title")
             taskHeaderDiv.appendChild(taskTitle);
 
+            const taskCardBtnContainer = document.createElement("div");
+            taskCardBtnContainer.classList.add("btn-container");
+
             const editBtn = _createActionBtn(editIcon, "edit-img", "edit-btn");
-            taskHeaderDiv.appendChild(editBtn);
+            taskCardBtnContainer.appendChild(editBtn);
 
             editBtn.addEventListener("click", () => {
                 loadForm("Edit task");
@@ -103,24 +110,27 @@ const DOMManipulation = (() => {
             });
 
             const deleteBtn = _createActionBtn(deleteIcon, "delete-img", "delete-btn");
-            taskHeaderDiv.appendChild(deleteBtn);
+            taskCardBtnContainer.appendChild(deleteBtn);
 
             deleteBtn.addEventListener("click", () => {
                 _deleteTaskCard(`${projectName}-${index}`);
                 projectOperations.deleteTaskFromProject(projectName, task.title);
             });
 
+            taskHeaderDiv.appendChild(taskCardBtnContainer);
+
             taskCard.appendChild(taskHeaderDiv);
 
-            const taksDueDate = document.createElement("div");
+            const taskDueDate = document.createElement("div");
+            taskDueDate.classList.add("due-date");
             if (task.dueDate) {
                 const formattedDate = format(new Date(task.dueDate), 'do MMMM y')
-                taksDueDate.textContent = `Due date: ${formattedDate}`;
+                taskDueDate.textContent = `Due date: ${formattedDate}`;
             } else {
-                taksDueDate.textContent = "No due date"
+                taskDueDate.textContent = "No due date"
             }
 
-            taskCard.appendChild(taksDueDate);
+            taskCard.appendChild(taskDueDate);
 
             taskTitle.addEventListener("click", () => {
                 if(taskCard.lastElementChild.textContent !== task.description) {
@@ -131,12 +141,21 @@ const DOMManipulation = (() => {
             });
 
             if (task.isDone) {
+                taskCard.classList.add("done");
+                const noListenerEditBtn = editBtn.cloneNode(true);
+                editBtn.parentNode.replaceChild(noListenerEditBtn, editBtn);
+                const noListenerDeletBtn = deleteBtn.cloneNode(true);
+                deleteBtn.parentNode.replaceChild(noListenerDeletBtn, deleteBtn);
+
                 doneDiv.appendChild(taskCard);
             } else if (!task.dueDate) {
+                taskCard.classList.remove("done");
                 noDateDiv.appendChild(taskCard)
             } else if (task.isImportant) {
+                taskCard.classList.remove("done");
                 importantDiv.appendChild(taskCard);
             } else {
+                taskCard.classList.remove("done");
                 tasksDiv.appendChild(taskCard);
             }
         });
@@ -145,7 +164,8 @@ const DOMManipulation = (() => {
     function _createContainerDiv (divTitle) {
         const div = document.createElement("div");
         const divClass = divTitle.toLowerCase().replaceAll(" ", "-");
-        div.classList.add(`${divClass}-container`);
+        div.classList.add(`${divClass}-container`, "task-group-container");
+
         const title = document.createElement("h2");
         title.textContent = divTitle;
         div.appendChild(title);
@@ -166,6 +186,7 @@ const DOMManipulation = (() => {
 
     function _showDetails(task, taskCard) {
         const detailDiv = document.createElement("div");
+        detailDiv.classList.add("description");
         detailDiv.textContent = task.description;
 
         taskCard.appendChild(detailDiv);
@@ -176,6 +197,7 @@ const DOMManipulation = (() => {
     };
     
     function hideSidebar () {
+        _appTitle.style.display = "none";
         _addBtn.style.display = "none";
         _deleteProjBtn.style.display = "none";
         _projContainer.style.display = "none";
@@ -184,6 +206,7 @@ const DOMManipulation = (() => {
     };
 
     function showSidebar () {
+        _appTitle.style.display = "inline-block";
         _addBtn.style.display = "inline-block";
         _deleteProjBtn.style.display = "inline-block";
         _projContainer.style.display = "inline-block";
@@ -196,7 +219,11 @@ const DOMManipulation = (() => {
     }
 
     function displayProjects () {
-        _projContainer.textContent = "Projects";
+        const projTitle = document.createElement("div");
+        projTitle.classList.add("project-title");
+        projTitle.textContent = "Projects";
+
+        _projContainer.appendChild(projTitle);
         const projects = projectOperations.getProjects();
 
         for (let i = 0; i < projects.length; i++) {
