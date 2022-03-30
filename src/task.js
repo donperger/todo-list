@@ -1,6 +1,5 @@
 const taskOperations = (() => {
-    const createTask = (title, description, dueDate, isImportant) => {
-        const isDone = false;
+    const createTask = (title, description, dueDate, isImportant, isDone) => {
         return { title, description, dueDate, isImportant, isDone }
     };
 
