@@ -220,6 +220,8 @@ const DOMManipulation = (() => {
     }
 
     function displayProjects () {
+        _projContainer.textContent = "";
+
         const projTitle = document.createElement("div");
         projTitle.classList.add("project-title");
         projTitle.textContent = "Projects";
@@ -440,6 +442,8 @@ const delProjBtn = document.querySelector(".delete-project");
 
 addBtn.addEventListener("click", () => {
     DOMManipulation.loadForm("Add task");
+    const projectInput = document.querySelector("#project");
+    projectInput.value = "General";
     TinyDatePicker({ input: document.querySelector('#due_date'),
       min: new Date(),
       dayOffset: 1,
