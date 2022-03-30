@@ -8,6 +8,7 @@
     --title-color: #F20587;
     --sidebar-btn-clr: #714674;
     --sidebar-btn-clr-dark: #432371;
+    --sidebar-width: 30rem;
 }
 
 body {
@@ -20,11 +21,11 @@ body {
 }
 
 .sidebar {
-    width: 20vw;
+    width: var(--sidebar-width);
     height: 100%;
     background-color: var(--sidebar-color);
     display: grid;
-    grid-template-columns: 15vw 5vw;
+    grid-template-columns: 75% 25%;
     grid-template-rows: repeat(2, 4rem);
     color: var(--light-font-color);
     padding: 0.5rem;
@@ -72,7 +73,7 @@ body {
 }
 
 .menu-btn {
-    width: 4vw;
+    width: 4rem;
     place-self: center;
 }
 
