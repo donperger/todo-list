@@ -1,5 +1,5 @@
 :root {
-    --project-title-clr: #0D0D0B;
+    --project-title-clr: #fff;
     --task-group-title-clr: #0D000D;
     --task-card-clr: #E2E9F1;
 }
@@ -14,6 +14,7 @@
 
 .list-title {
     color: var(--project-title-clr);
+    font-size: 3rem;
 }
 
 .task-group-container {
