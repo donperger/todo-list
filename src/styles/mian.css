@@ -29,6 +29,7 @@ body {
     grid-template-rows: repeat(2, 4rem);
     color: var(--light-font-color);
     padding: 0.5rem;
+    overflow-y: scroll;
 }
 
 .app-title {
