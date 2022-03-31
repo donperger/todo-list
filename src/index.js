@@ -141,6 +141,8 @@ const DOMManipulation = (() => {
                 }
             });
 
+            if (task.isImportant) taskHeaderDiv.style.textDecoration = "underline";
+
             if (task.isDone) {
                 taskCard.classList.add("done");
                 const noListenerEditBtn = editBtn.cloneNode(true);
@@ -150,13 +152,10 @@ const DOMManipulation = (() => {
 
                 doneDiv.appendChild(taskCard);
             } else if (!task.dueDate) {
-                taskCard.classList.remove("done");
                 noDateDiv.appendChild(taskCard)
             } else if (task.isImportant) {
-                taskCard.classList.remove("done");
                 importantDiv.appendChild(taskCard);
             } else {
-                taskCard.classList.remove("done");
                 tasksDiv.appendChild(taskCard);
             }
         });
