@@ -21,15 +21,16 @@ body {
 }
 
 .sidebar {
+    box-sizing: border-box;
     width: var(--sidebar-width);
-    height: 100%;
+    height: calc(100vh - var(--footer-height));
     background-color: var(--sidebar-color);
     display: grid;
     grid-template-columns: 75% 25%;
     grid-template-rows: repeat(2, 4rem);
     color: var(--light-font-color);
     padding: 0.5rem;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .app-title {
