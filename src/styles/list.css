@@ -8,6 +8,7 @@
     padding: 1rem;
     width: calc(100vw - var(--sidebar-width));
     height: calc(100Vh - var(--footer-height));
+    overflow: scroll;
 }
 
 .list-title {
